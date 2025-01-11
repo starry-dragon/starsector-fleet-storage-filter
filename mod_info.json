@@ -1,0 +1,15 @@
+{
+  "id": "fleet-storage-filter",
+  "name": "Fleet Storage Filter",
+  "author": "Genir",
+  "utility": "true",
+  "version": "1.0.0",
+  "description": "Fleet Storage Filter",
+  "gameVersion": "0.97a",
+  "dependencies": [
+    {
+      "id": "lw_lazylib",
+      "name": "LazyLib"
+    }
+  ]
+}
