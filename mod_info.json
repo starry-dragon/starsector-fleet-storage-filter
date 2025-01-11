@@ -6,6 +6,10 @@
   "version": "1.0.0",
   "description": "Fleet Storage Filter",
   "gameVersion": "0.97a",
+  "modPlugin": "com.genir.fsf.BaseModPlugin",
+  "jars": [
+    "jars/fleet-storage-filter.jar",
+  ],
   "dependencies": [
     {
       "id": "lw_lazylib",
