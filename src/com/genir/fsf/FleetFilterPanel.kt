@@ -40,7 +40,7 @@ class FleetFilterPanel(width: Float, height: Float, private val fleetPanel: UIPa
 
         // Merge stash and fleetData to recreate vanilla order.
         applyStash()
-        val fleetData = fleetPanel.fleetData
+        val fleetData: FleetData = fleetPanel.fleetData
         fleetData.sort()
 
         val descriptions = textField.text.split(" ").filter { it != "" }
@@ -66,7 +66,7 @@ class FleetFilterPanel(width: Float, height: Float, private val fleetPanel: UIPa
         }
 
         // Redraw the fleet panel.
-        recreateUI.invoke(fleetPanel)
+        recreateUI.invoke(fleetPanel, false)
         fleetPanel.addComponent(mainPanel).inTR(xPad, yPad)
 
         prevString = textField.text
