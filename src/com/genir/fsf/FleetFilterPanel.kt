@@ -2,6 +2,7 @@ package com.genir.fsf
 
 import com.fs.starfarer.api.Global
 import com.fs.starfarer.api.campaign.CustomUIPanelPlugin
+import com.fs.starfarer.api.fleet.FleetMemberAPI
 import com.fs.starfarer.api.input.InputEventAPI
 import com.fs.starfarer.api.ui.*
 import com.fs.starfarer.campaign.fleet.FleetData
@@ -84,7 +85,7 @@ class FleetFilterPanel(width: Float, height: Float, private val fleetPanel: UIPa
 
     private fun FleetMember.matchesDescription(desc: String): Boolean {
         return when {
-            hullId.removeSuffix("_default_D").contains(desc) -> true
+            (this as FleetMemberAPI).hullSpec.hullName.lowercase().contains(desc) -> true
             isCivilian && "civilian".startsWith(desc) -> true
             isCarrier && "carrier".startsWith(desc) -> true
             isPhaseShip && "phase".startsWith(desc) -> true
