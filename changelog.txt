@@ -1,1 +1,4 @@
 v2.0.1: search is now case-insensitive and uses display name not hull id
+
+v2.1.0: better positioning of search bar
+        search now uses fuzzy string matching (added lunalib dependency to do this)

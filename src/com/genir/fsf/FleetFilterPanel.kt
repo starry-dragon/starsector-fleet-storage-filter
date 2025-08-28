@@ -7,12 +7,14 @@ import com.fs.starfarer.api.input.InputEventAPI
 import com.fs.starfarer.api.ui.*
 import com.fs.starfarer.campaign.fleet.FleetData
 import com.fs.starfarer.campaign.fleet.FleetMember
+import me.xdrop.fuzzywuzzy.FuzzySearch
 import java.lang.reflect.Method
 
 class FleetFilterPanel(width: Float, height: Float, private val fleetPanel: UIPanelAPI) : CustomUIPanelPlugin {
     private val fleetPanelClass: Class<*> = fleetPanel::class.java
     private val getFleetData: Method = fleetPanelClass.methods.first { it.name == "getFleetData" }
     private val recreateUI: Method = fleetPanelClass.methods.first { it.name == "recreateUI" }
+    private val fuzzySearchThreshold: Int = 75
 
     private val stash: MutableList<FleetMember> = mutableListOf()
 
@@ -84,15 +86,19 @@ class FleetFilterPanel(width: Float, height: Float, private val fleetPanel: UIPa
     }
 
     private fun FleetMember.matchesDescription(desc: String): Boolean {
+        val hullName: String = (this as FleetMemberAPI).hullSpec.hullName.removeSuffix(" (D)").lowercase()
+        val loweredDesc: String = desc.lowercase()
+        //minimum query length
+        if (desc.length < 2) {return false}
         return when {
-            (this as FleetMemberAPI).hullSpec.hullName.lowercase().contains(desc) -> true
-            isCivilian && "civilian".startsWith(desc) -> true
-            isCarrier && "carrier".startsWith(desc) -> true
-            isPhaseShip && "phase".startsWith(desc) -> true
-            isFrigate && "frigate".startsWith(desc) -> true
-            isDestroyer && "destroyer".startsWith(desc) -> true
-            isCruiser && "cruiser".startsWith(desc) -> true
-            isCapital && "capital".startsWith(desc) -> true
+            FuzzySearch.partialRatio(hullName, loweredDesc) > fuzzySearchThreshold -> true
+            isCivilian && "civilian" == loweredDesc -> true
+            isCarrier && "carrier" == loweredDesc -> true
+            isPhaseShip && "phase" == loweredDesc -> true
+            isFrigate && "frigate" == loweredDesc -> true
+            isDestroyer && "destroyer" == loweredDesc -> true
+            isCruiser && "cruiser" == loweredDesc -> true
+            isCapital && "capital" == loweredDesc -> true
 
             else -> false
         }
