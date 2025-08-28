@@ -19,8 +19,8 @@ class FleetFilterPanel(width: Float, height: Float, private val fleetPanel: UIPa
     private var mainPanel: CustomPanelAPI = Global.getSettings().createCustom(width, height, this)
     private var textField: TextFieldAPI
     private var prevString: String = ""
-    private val xPad = 15f
-    private val yPad = 15f
+    private val xPad = 4f
+    private val yPad = -25f
 
     init {
         val tooltip = mainPanel.createUIElement(width, height, false)

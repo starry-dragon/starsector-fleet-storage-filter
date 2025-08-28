@@ -34,7 +34,7 @@ class EveryFrameScript : EveryFrameScript {
 
     private fun updateFilterPanel(fleetPanel: UIPanelAPI?) {
         filterPanel?.applyStash()
-        filterPanel = fleetPanel?.let { FleetFilterPanel(200f, 20f, it) }
+        filterPanel = fleetPanel?.let { FleetFilterPanel(232f, 20f, it) }
         prevFleetPanel = fleetPanel
     }
 
