@@ -1,5 +1,5 @@
 {
-    "masterVersionFile":"https://raw.githubusercontent.com/starry-dragon/starsector-fleet-storage-filter/main/fleet-storage-filter.version",
+    "masterVersionFile":"https://raw.githubusercontent.com/starry-dragon/starsector-fleet-storage-filter/main/FleetStorageFilter.version",
     "modName":"Fleet Storage Filter",
     "directDownloadURL":"https://github.com/starry-dragon/starsector-fleet-storage-filter/releases/download/v.2.1.0/Fleet.Storage.Filter-2.1.0.zip",
     "modThreadID":33916,
