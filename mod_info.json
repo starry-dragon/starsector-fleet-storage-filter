@@ -3,7 +3,7 @@
   "name": "Fleet Storage Filter",
   "author": "Genir, starry-dragon",
   "utility": "true",
-  "version": "2.0.1",
+  "version": "2.1.0",
   "description": "Fleet Storage Filter",
   "gameVersion": "0.98a",
   "modPlugin": "com.genir.fsf.BaseModPlugin",
