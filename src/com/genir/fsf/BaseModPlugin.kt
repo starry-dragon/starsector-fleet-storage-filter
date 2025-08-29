@@ -18,7 +18,7 @@ class BaseModPlugin : BaseModPlugin() {
     private fun onGameStart() {
         val sector = Global.getSector()
         if (!sector.hasTransientScript(efs)) {
-            sector.addTransientScript(efs.newInstance() as EveryFrameScript)
+            sector.addTransientScript(efs.getDeclaredConstructor().newInstance() as EveryFrameScript)
         }
     }
 }
