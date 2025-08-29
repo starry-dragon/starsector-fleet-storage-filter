@@ -6,7 +6,10 @@ import com.fs.starfarer.api.campaign.CoreUITabId
 import com.fs.starfarer.api.ui.UIPanelAPI
 import com.fs.starfarer.campaign.CampaignState
 import com.fs.starfarer.campaign.fleet.FleetData
+import org.apache.log4j.Logger
 import java.lang.reflect.Method
+
+
 
 //it is actually used but through reflection, if it works im not touching it
 @Suppress("unused")
@@ -18,6 +21,8 @@ class EveryFrameScript : EveryFrameScript {
 
     private var filterPanel: FleetFilterPanel? = null
     private var prevFleetPanel: Any? = null
+
+    private val logger: Logger = Global.getLogger(this.javaClass)
 
     override fun advance(dt: Float) {
         val campaignState = Global.getSector().campaignUI
@@ -36,7 +41,7 @@ class EveryFrameScript : EveryFrameScript {
 
     // this only runs once when the user enters a given fleet panel
     private fun updateFilterPanel(fleetPanel: UIPanelAPI?) {
-        filterPanel?.applyStash()
+        filterPanel?.closePanel()
         filterPanel = fleetPanel?.let { FleetFilterPanel(232f, 20f, it) }
         prevFleetPanel = fleetPanel
     }

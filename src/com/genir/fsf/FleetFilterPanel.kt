@@ -2,6 +2,7 @@ package com.genir.fsf
 
 import com.fs.starfarer.api.Global
 import com.fs.starfarer.api.campaign.CustomUIPanelPlugin
+import com.fs.starfarer.api.campaign.FleetDataAPI
 import com.fs.starfarer.api.fleet.FleetMemberAPI
 import com.fs.starfarer.api.input.InputEventAPI
 import com.fs.starfarer.api.ui.*
@@ -45,11 +46,14 @@ class FleetFilterPanel(width: Float, height: Float, private val fleetPanel: UIPa
         // Merge stash and fleetData to recreate vanilla order.
         applyStash()
         val fleetData: FleetData = fleetPanel.fleetData
-        fleetData.sort()
+        (fleetData as FleetDataAPI).setSyncNeeded()
 
         val descriptions = textField.text.split(" ").filter { it != "" }
         if (descriptions.isNotEmpty()) {
             // Move all ships to stash.
+            // note - somewhat scary because it temporarily removes those ships from
+            // storage to make the search work - can't do any better than this without
+            // completely overriding the vanilla storage UI, beyond scope of this mod
             fleetData.members.forEach { fleetMember ->
                 stash.add(fleetMember)
             }
@@ -84,6 +88,14 @@ class FleetFilterPanel(width: Float, height: Float, private val fleetPanel: UIPa
             fleetData.addFleetMember(fleetMember)
         }
         stash.clear()
+    }
+
+    /**
+     * Applies stash and then sorts the fleet list as well */
+    fun closePanel() {
+        applyStash()
+        val fleetData: FleetData = fleetPanel.fleetData
+        (fleetData as FleetDataAPI).setSyncNeeded()
     }
 
     private fun FleetMember.matchesDescription(desc: String): Boolean {
