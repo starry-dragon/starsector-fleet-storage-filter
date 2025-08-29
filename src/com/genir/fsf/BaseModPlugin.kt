@@ -20,18 +20,7 @@ class BaseModPlugin : BaseModPlugin() {
     private fun onGameStart() {
         val sector = Global.getSector()
         if (!sector.hasTransientScript(efs)) {
-            sector.addTransientScript(instantiate(efs) as EveryFrameScript)
+            sector.addTransientScript(ReflectionUtils.instantiate(efs) as EveryFrameScript)
         }
-    }
-
-    private fun instantiate(clazz: Class<*>, vararg arguments: Any?) : Any?
-    {
-        val args = arguments.map { it!!::class.javaPrimitiveType ?: it!!::class.java }
-        val methodType = MethodType.methodType(Void.TYPE, args)
-
-        val constructorHandle = MethodHandles.lookup().findConstructor(clazz, methodType)
-        val instance = constructorHandle.invokeWithArguments(arguments.toList())
-
-        return instance
     }
 }
