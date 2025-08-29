@@ -14,7 +14,7 @@ class FleetFilterPanel(width: Float, height: Float, private val fleetPanel: UIPa
     private val fleetPanelClass: Class<*> = fleetPanel::class.java
     private val getFleetData: Method = fleetPanelClass.methods.first { it.name == "getFleetData" }
     private val recreateUI: Method = fleetPanelClass.methods.first { it.name == "recreateUI" }
-    private val fuzzySearchThreshold: Int = 75
+    private val fuzzySearchThreshold: Int = 80
 
     private val stash: MutableList<FleetMember> = mutableListOf()
 
