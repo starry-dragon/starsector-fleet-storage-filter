@@ -8,6 +8,8 @@ import com.fs.starfarer.campaign.CampaignState
 import com.fs.starfarer.campaign.fleet.FleetData
 import java.lang.reflect.Method
 
+//it is actually used but through reflection, if it works im not touching it
+@Suppress("unused")
 class EveryFrameScript : EveryFrameScript {
     private val getScreenPanel: Method = CampaignState::class.java.getMethod("getScreenPanel")
     private val uiPanelClass: Class<*> = getScreenPanel.returnType
