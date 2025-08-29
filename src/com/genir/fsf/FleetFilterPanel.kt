@@ -37,6 +37,7 @@ class FleetFilterPanel(width: Float, height: Float, private val fleetPanel: UIPa
     }
 
     override fun advance(dt: Float) {
+        // if query is unchanged, don't run filter again
         if (textField.text == prevString) {
             return
         }

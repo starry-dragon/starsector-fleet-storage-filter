@@ -34,6 +34,7 @@ class EveryFrameScript : EveryFrameScript {
         }
     }
 
+    // this only runs once when the user enters a given fleet panel
     private fun updateFilterPanel(fleetPanel: UIPanelAPI?) {
         filterPanel?.applyStash()
         filterPanel = fleetPanel?.let { FleetFilterPanel(232f, 20f, it) }
@@ -46,17 +47,28 @@ class EveryFrameScript : EveryFrameScript {
         // There's no easy way to statically find the FleetPanel Class.
         // Here we find it dynamically, when traversing the UI tree.
         // isFleetPanelClass() call is very expensive, so the result is cached.
+
+        // have we found fleetPanelClass yet? if not, is my parameter a FleetPanel?
         if (fleetPanelClass == null && isFleetPanelClass(uiComponent::class.java)) {
+            //if so, then we've got our class, save it for future use
             fleetPanelClass = uiComponent::class.java
         }
 
+        // fleetPanelClass may or may not have been found
         return when {
+            // check if my parameter is an instance of fleetPanel, if we've found the class
             fleetPanelClass?.isInstance(uiComponent) == true -> {
                 return uiComponent
             }
 
+            // this is the case where fleetPanelClass hasn't been found yet and my parameter
+            // was not an instance of FleetPanel, but is an instance of UIPanel
             uiPanelClass.isInstance(uiComponent) -> {
+                // I will grab all of UIPanel's children, one of which is FleetPanel
                 val children = getChildrenCopy.invoke(uiComponent) as List<*>
+                // Put them in sequence and map each to whether it's FleetPanel
+                // In effect, our list now has one non-null entry, which is the FleetPanel class
+                // as all others will have been nulled by the recursive call.
                 val fleetPanels = children.asSequence().map { child -> findFleetPanel(child!!) }
                 fleetPanels.filterNotNull().firstOrNull()
             }
