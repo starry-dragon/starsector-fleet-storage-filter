@@ -7,7 +7,7 @@ import com.fs.starfarer.api.ui.UIPanelAPI
 import com.fs.starfarer.campaign.CampaignState
 import com.fs.starfarer.campaign.fleet.FleetData
 import com.genir.fsf.ReflectionUtils.getMethod
-import org.apache.log4j.Logger
+//import org.apache.log4j.Logger
 
 
 
@@ -25,7 +25,7 @@ class EveryFrameScript : EveryFrameScript {
     private var filterPanel: FleetFilterPanel? = null
     private var prevFleetPanel: Any? = null
 
-    private val logger: Logger = Global.getLogger(this.javaClass)
+    //private val logger: Logger = Global.getLogger(this.javaClass)
 
     override fun advance(dt: Float) {
         val campaignState = Global.getSector().campaignUI
@@ -45,7 +45,7 @@ class EveryFrameScript : EveryFrameScript {
 
     // this only runs once when the user enters a given fleet panel
     private fun updateFilterPanel(fleetPanel: UIPanelAPI?) {
-        filterPanel?.closePanel()
+        filterPanel?.stashAndSort()
         filterPanel = fleetPanel?.let { FleetFilterPanel(232f, 20f, it) }
         prevFleetPanel = fleetPanel
     }

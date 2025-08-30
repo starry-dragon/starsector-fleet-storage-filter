@@ -10,6 +10,9 @@ import com.fs.starfarer.campaign.fleet.FleetData
 import com.fs.starfarer.campaign.fleet.FleetMember
 import com.genir.fsf.ReflectionUtils.getMethod
 import me.xdrop.fuzzywuzzy.FuzzySearch
+//import org.apache.log4j.Logger
+
+
 
 class FleetFilterPanel(width: Float, height: Float, private val fleetPanel: UIPanelAPI) : CustomUIPanelPlugin {
     private val fleetPanelClass: Class<*> = fleetPanel::class.java
@@ -17,7 +20,9 @@ class FleetFilterPanel(width: Float, height: Float, private val fleetPanel: UIPa
     private val getFleetData: ReflectionUtils.ReflectedMethod = getMethod("getFleetData", fleetPanelClass)!!
     //private val recreateUI: Method = fleetPanelClass.methods.first { it.name == "recreateUI" }
     private val recreateUI: ReflectionUtils.ReflectedMethod = getMethod("recreateUI", fleetPanelClass)!!
-    private val fuzzySearchThreshold: Int = 80
+    private val getSortedMembers: ReflectionUtils.ReflectedMethod = getMethod("getSortedMembers", FleetData::class.java)!!
+
+    //private val fleetDataMembersField: ReflectionUtils.ReflectedField = getField("membersWithoutNull", FleetData::class.java)!!
 
     private val stash: MutableList<FleetMember> = mutableListOf()
 
@@ -26,6 +31,9 @@ class FleetFilterPanel(width: Float, height: Float, private val fleetPanel: UIPa
     private var prevString: String = ""
     private val xPad = 4f
     private val yPad = -25f
+    private val fuzzySearchThreshold: Int = 80
+
+    //private val logger: Logger = Global.getLogger(this.javaClass)
 
     init {
         val tooltip = mainPanel.createUIElement(width, height, false)
@@ -46,9 +54,8 @@ class FleetFilterPanel(width: Float, height: Float, private val fleetPanel: UIPa
         }
 
         // Merge stash and fleetData to recreate vanilla order.
-        applyStash()
+        stashAndSort()
         val fleetData: FleetData = fleetPanel.fleetData
-        (fleetData as FleetDataAPI).setSyncNeeded()
 
         val descriptions = textField.text.split(" ").filter { it != "" }
         if (descriptions.isNotEmpty()) {
@@ -94,10 +101,13 @@ class FleetFilterPanel(width: Float, height: Float, private val fleetPanel: UIPa
 
     /**
      * Applies stash and then sorts the fleet list as well */
-    fun closePanel() {
+    fun stashAndSort() {
         applyStash()
         val fleetData: FleetData = fleetPanel.fleetData
-        (fleetData as FleetDataAPI).setSyncNeeded()
+        (fleetData as FleetDataAPI).syncMemberLists()
+        @Suppress("UNCHECKED_CAST") val temp = getSortedMembers.invoke(fleetData) as List<FleetMember>
+        (fleetData as FleetDataAPI).clear()
+        temp.forEach { fleetData.addFleetMember(it) }
     }
 
     private fun FleetMember.matchesDescription(desc: String): Boolean {
@@ -121,6 +131,11 @@ class FleetFilterPanel(width: Float, height: Float, private val fleetPanel: UIPa
 
     private val UIPanelAPI.fleetData: FleetData
         get() = getFleetData.invoke(this) as FleetData
+
+    // the api sort function doesn't seem to work
+    //private fun FleetDataAPI.workingSort() {
+    //    Collections.sort<FleetMember>(this.membersWithoutNull)
+    //}
 
     override fun positionChanged(position: PositionAPI) = Unit
 
