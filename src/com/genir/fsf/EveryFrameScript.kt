@@ -7,6 +7,8 @@ import com.fs.starfarer.api.ui.UIPanelAPI
 import com.fs.starfarer.campaign.CampaignState
 import com.fs.starfarer.campaign.fleet.FleetData
 import com.genir.fsf.ReflectionUtils.getMethod
+import lunalib.lunaSettings.LunaSettings
+
 //import org.apache.log4j.Logger
 
 
@@ -24,6 +26,11 @@ class EveryFrameScript : EveryFrameScript {
 
     private var filterPanel: FleetFilterPanel? = null
     private var prevFleetPanel: Any? = null
+
+    companion object {
+        //so that it's accessible to FleetFilterPanel
+        val fuzzySearchThreshold: Int = LunaSettings.getInt("fleet-storage-filter", "fsf-fuzzythreshold") ?: 80
+    }
 
     //private val logger: Logger = Global.getLogger(this.javaClass)
 

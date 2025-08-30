@@ -9,6 +9,7 @@ import com.fs.starfarer.api.ui.*
 import com.fs.starfarer.campaign.fleet.FleetData
 import com.fs.starfarer.campaign.fleet.FleetMember
 import com.genir.fsf.ReflectionUtils.getMethod
+import com.genir.fsf.EveryFrameScript.Companion.fuzzySearchThreshold
 import me.xdrop.fuzzywuzzy.FuzzySearch
 //import org.apache.log4j.Logger
 
@@ -31,7 +32,7 @@ class FleetFilterPanel(width: Float, height: Float, private val fleetPanel: UIPa
     private var prevString: String = ""
     private val xPad = 4f
     private val yPad = -25f
-    private val fuzzySearchThreshold: Int = 80
+    //private val fuzzySearchThreshold: Int = 80
 
     //private val logger: Logger = Global.getLogger(this.javaClass)
 

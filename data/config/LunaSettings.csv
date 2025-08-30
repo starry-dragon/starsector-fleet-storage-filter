@@ -1,0 +1,3 @@
+fieldID,fieldName,fieldType,defaultValue,secondaryValue,fieldDescription,minValue,maxValue,tab
+fsf_searchheader,Search Config Header,Header,Search,,,,,
+fsf_fuzzythreshold,Fuzzy Matching Threshold,Int,80,,"How close the ship name and search query must be to return a ship as a result. Lower is more forgiving of typos, but results in false positives.",70,100,
