@@ -8,8 +8,9 @@ import com.fs.starfarer.campaign.CampaignState
 import com.fs.starfarer.campaign.fleet.FleetData
 import com.genir.fsf.ReflectionUtils.getMethod
 import lunalib.lunaSettings.LunaSettings
+import kotlin.properties.Delegates
 
-//import org.apache.log4j.Logger
+import org.apache.log4j.Logger
 
 
 
@@ -29,10 +30,10 @@ class EveryFrameScript : EveryFrameScript {
 
     companion object {
         //so that it's accessible to FleetFilterPanel
-        val fuzzySearchThreshold: Int = LunaSettings.getInt("fleet-storage-filter", "fsf-fuzzythreshold") ?: 80
+        internal var fuzzySearchThreshold: Int by Delegates.notNull<Int>()
     }
 
-    //private val logger: Logger = Global.getLogger(this.javaClass)
+    private val logger: Logger = Global.getLogger(this.javaClass)
 
     override fun advance(dt: Float) {
         val campaignState = Global.getSector().campaignUI
@@ -52,6 +53,8 @@ class EveryFrameScript : EveryFrameScript {
 
     // this only runs once when the user enters a given fleet panel
     private fun updateFilterPanel(fleetPanel: UIPanelAPI?) {
+        fuzzySearchThreshold = LunaSettings.getInt("fleet-storage-filter", "fsf_fuzzythreshold")!!
+        logger.info(fuzzySearchThreshold)
         filterPanel?.stashAndSort()
         filterPanel = fleetPanel?.let { FleetFilterPanel(232f, 20f, it) }
         prevFleetPanel = fleetPanel

@@ -117,7 +117,7 @@ class FleetFilterPanel(width: Float, height: Float, private val fleetPanel: UIPa
         //minimum query length
         if (desc.length < 2) {return false}
         return when {
-            FuzzySearch.partialRatio(hullName, loweredDesc) > fuzzySearchThreshold -> true
+            FuzzySearch.partialRatio(hullName, loweredDesc) >= fuzzySearchThreshold -> true
             isCivilian && "civilian" == loweredDesc -> true
             isCarrier && "carrier" == loweredDesc -> true
             isPhaseShip && "phase" == loweredDesc -> true
