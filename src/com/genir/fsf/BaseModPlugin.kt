@@ -4,6 +4,8 @@ import com.fs.starfarer.api.BaseModPlugin
 import com.fs.starfarer.api.EveryFrameScript
 import com.fs.starfarer.api.Global
 
+
+@Suppress("unused")
 class BaseModPlugin : BaseModPlugin() {
     private val efs = Loader().loadClass("com.genir.fsf.EveryFrameScript")
 

@@ -8,13 +8,15 @@ import com.fs.starfarer.api.input.InputEventAPI
 import com.fs.starfarer.api.ui.*
 import com.fs.starfarer.campaign.fleet.FleetData
 import com.fs.starfarer.campaign.fleet.FleetMember
+import com.genir.fsf.ReflectionUtils.getMethod
 import me.xdrop.fuzzywuzzy.FuzzySearch
-import java.lang.reflect.Method
 
 class FleetFilterPanel(width: Float, height: Float, private val fleetPanel: UIPanelAPI) : CustomUIPanelPlugin {
     private val fleetPanelClass: Class<*> = fleetPanel::class.java
-    private val getFleetData: Method = fleetPanelClass.methods.first { it.name == "getFleetData" }
-    private val recreateUI: Method = fleetPanelClass.methods.first { it.name == "recreateUI" }
+    //private val getFleetData: Method = fleetPanelClass.methods.first { it.name == "getFleetData" }
+    private val getFleetData: ReflectionUtils.ReflectedMethod = getMethod("getFleetData", fleetPanelClass)!!
+    //private val recreateUI: Method = fleetPanelClass.methods.first { it.name == "recreateUI" }
+    private val recreateUI: ReflectionUtils.ReflectedMethod = getMethod("recreateUI", fleetPanelClass)!!
     private val fuzzySearchThreshold: Int = 80
 
     private val stash: MutableList<FleetMember> = mutableListOf()

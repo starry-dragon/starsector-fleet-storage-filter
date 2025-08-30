@@ -8,7 +8,6 @@ import com.fs.starfarer.campaign.CampaignState
 import com.fs.starfarer.campaign.fleet.FleetData
 import com.genir.fsf.ReflectionUtils.getMethod
 import org.apache.log4j.Logger
-import java.lang.reflect.Method
 
 
 
@@ -20,7 +19,7 @@ class EveryFrameScript : EveryFrameScript {
     // s really wrong
     private val getScreenPanel: ReflectionUtils.ReflectedMethod = getMethod("getScreenPanel", CampaignState::class.java)!!
     private val uiPanelClass: Class<*> = getScreenPanel.returnType
-    private val getChildrenCopy: Method = uiPanelClass.getMethod("getChildrenCopy")
+    private val getChildrenCopy: ReflectionUtils.ReflectedMethod = getMethod("getChildrenCopy", uiPanelClass)!!
     private var fleetPanelClass: Class<*>? = null
 
     private var filterPanel: FleetFilterPanel? = null
