@@ -6,6 +6,7 @@ import com.fs.starfarer.api.campaign.CoreUITabId
 import com.fs.starfarer.api.ui.UIPanelAPI
 import com.fs.starfarer.campaign.CampaignState
 import com.fs.starfarer.campaign.fleet.FleetData
+import com.genir.fsf.ReflectionUtils.getMethod
 import org.apache.log4j.Logger
 import java.lang.reflect.Method
 
@@ -14,7 +15,10 @@ import java.lang.reflect.Method
 //it is actually used but through reflection, if it works im not touching it
 @Suppress("unused")
 class EveryFrameScript : EveryFrameScript {
-    private val getScreenPanel: Method = CampaignState::class.java.getMethod("getScreenPanel")
+    //private val getScreenPanel: Method = CampaignState::class.java.getMethod("getScreenPanel")
+    //if this returns null something'
+    // s really wrong
+    private val getScreenPanel: ReflectionUtils.ReflectedMethod = getMethod("getScreenPanel", CampaignState::class.java)!!
     private val uiPanelClass: Class<*> = getScreenPanel.returnType
     private val getChildrenCopy: Method = uiPanelClass.getMethod("getChildrenCopy")
     private var fleetPanelClass: Class<*>? = null
@@ -32,7 +36,8 @@ class EveryFrameScript : EveryFrameScript {
         }
 
         // Attach a new filter to every fleet panel.
-        val screenPanel: Any = getScreenPanel.invoke(campaignState)
+        // should not be getting any nulls
+        val screenPanel: Any = getScreenPanel.invoke(campaignState)!!
         val fleetPanel = findFleetPanel(screenPanel) as? UIPanelAPI
         if (fleetPanel != prevFleetPanel) {
             updateFilterPanel(fleetPanel)

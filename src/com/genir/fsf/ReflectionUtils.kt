@@ -1,7 +1,7 @@
-//not my code, not changing it to remove warnings
-@file:Suppress("warnings", "unused")
+@file:Suppress("warnings", "unused", "UnusedImport", "RedundantNullableReturnType")
 package com.genir.fsf
 
+import com.fs.starfarer.D.`return`
 import java.lang.invoke.MethodHandles
 import java.lang.invoke.MethodType
 
@@ -58,6 +58,7 @@ internal object ReflectionUtils {
         val parameterTypes: List<Class<*>?>?) {
     }
     class ReflectedMethod(private val method: Any) {
+        internal val returnType: Class<*> = getMethodReturnTypeHandle.invoke(method) as Class<*>
         fun invoke(instance: Any?, vararg arguments: Any?): Any? = invokeMethodHandle.invoke(method, instance, arguments)
     }
 
@@ -197,7 +198,7 @@ internal object ReflectionUtils {
         }
     }
 
-    fun getMethod(methodName: String? = null, clazz: Class<*>, returnType: Class<*>?=null, parameterCount: Int?=null, parameters: List<Class<*>?>?) : ReflectedMethod? {
+    fun getMethod(methodName: String? = null, clazz: Class<*>, returnType: Class<*>?=null, parameterCount: Int?=null, parameters: List<Class<*>?>?=null) : ReflectedMethod? {
         val key = ReflectedMethodKey(clazz, methodName, parameterCount, returnType, parameters)
         return methodsCache.getOrPut(key) {
             var targetMethod: Any? = null
